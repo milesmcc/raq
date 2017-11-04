@@ -1,4 +1,7 @@
 vaderSentiment
-rake_nltk
 newspaper
+rake_nltk
+pdb
+wolframalpha
+numpy
 
