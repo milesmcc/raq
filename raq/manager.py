@@ -11,15 +11,28 @@ class Manager:
 		root_topic = Topic(querystring)
 		self.topic_path.append(root_topic)
 		graph.append(root_topic.assemble())
-		for related_level1 in root_topic.get_related_topics():
+		searched = [querystring]
+		for related_level1 in root_topic.get_related_topics()[:4]:
+			if related_level1 in searched:
+				continue
+			else:
+				searched.append(related_level1)
 			topic_level1 = Topic(related_level1)
-			graph.append(topic_level1.assemble())
-			for related_level2 in topic_level1.get_related_topics():
+			for related_level2 in topic_level1.get_related_topics()[:4]:
+				if related_level2.string_query in searched:
+					continue
+				else:
+					searched.append(related_level2)
 				topic_level2 = Topic(related_level1)
+				topic_level2.connect(topic_level1.string_query)
+				topic_level1.connect(topic_level2.string_query)
 				graph.append(topic_level2.assemble())
-		for topic in self.topic_path[-min(len(self.topic_path), 3):]:
-			graph.append(topic.assemble())
-		graph = {v['name']:v for v in map(lambda x: x, graph)}.values()
+			graph.append(topic_level1.assemble())
+		# for topic in self.topic_path[-min(len(self.topic_path), 3):]:
+		# 	graph.append(topic.assemble())
+		# graph = {
+		# 	v['name']:v for v in map(lambda x: x, graph)
+		# }.values()
 		for thing in graph:
 			print(thing)
 		graph_json = json.dumps(graph)
@@ -30,7 +43,7 @@ class Manager:
 		# dummy data:
 		# s = '''[
 		# 	{
-		# 		"name": "a"
+		# 		"name": "a",
 		# 		"elements": {
 		# 			"RelatedTopics": ["one", "two", "three"],
 		# 			"Sentiment": {
@@ -65,4 +78,4 @@ class Manager:
 
 if __name__ == "__main__":
 	m = Manager()
-	print(m.get_graph_json("kaspersky"))
+	print(m.get_graph_json("kevin spacey"))

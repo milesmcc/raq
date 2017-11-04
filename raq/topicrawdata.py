@@ -15,6 +15,7 @@ class TopicRawData:
         self.subscriptionKey = secret = open(secrets).readlines()[3]
 
     def populate(self):
+        print("Populating: " + self.topicstring)
         host = "https://api.cognitive.microsoft.com/bing/v7.0/news"
         headers = {'Ocp-Apim-Subscription-Key': self.subscriptionKey.strip()}
         response = requests.get(host + "?q=" + self.topicstring + "&searchFilters=News", headers=headers).json()
@@ -25,7 +26,7 @@ class TopicRawData:
                 self.articles.append(articleObj)
             except:
                 print("ERROR ON " + article["url"])
-        print json.dumps(response)
+        #print json.dumps(response)
         self.search_results = len(response["value"])
 
     def strings(self):

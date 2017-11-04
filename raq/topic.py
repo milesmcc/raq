@@ -12,10 +12,14 @@ class Topic:
         self.string_query = string_query
         self.elements = {}
         self.known_analyses = [Sentiment(), RelatedTopics(), Popularity(), RelatedArticles()]
+        self.connected = []
         self.assemble()
 
     def get_related_topics(self):
         return self.elements["RelatedTopics"][:4]
+
+    def connect(self, other_topic):
+        self.connected.append(other_topic)
 
     def assemble(self):
         # pull data from online
@@ -29,6 +33,7 @@ class Topic:
         return {
             "elements": self.elements,
             "name": self.string_query,
+            "connected": self.connected
         }
 
     def __eq__(self, other):
