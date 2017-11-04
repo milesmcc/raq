@@ -3,6 +3,9 @@ class RelatedTopics:
         pass
 
     def get_name():
+        return "RelatedTopics"
+
+    def get_human_readable_name():
         return "Related Topics"
 
     """

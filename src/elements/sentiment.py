@@ -5,6 +5,9 @@ class Sentiment:
     def get_name():
         return "Sentiment"
 
+    def get_human_readable_name():
+        return "Sentiment Score"
+
     """
     strings: an array of strings on which to do the data analysis
     """
