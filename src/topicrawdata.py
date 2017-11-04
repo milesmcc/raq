@@ -13,9 +13,9 @@ class TopicRawData:
         # fetch raw data
 
     def strings(self):
-        # pass
         # return all strings
-        return [self.tweets.strings, self.ar]
+
+        return self.articles.getAllString()# + self.[source].getAllStrings() for other sources
 
     def getArticles(self): # the only one we're using rn
         return self.articles
