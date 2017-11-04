@@ -3,6 +3,7 @@ from elements.related_topics import RelatedTopics
 from elements.sentiment import Sentiment
 
 class Topic:
+    '''return dict of relevant info about a single topic'''
     known_analyses = [Sentiment, RelatedTopics]
 
     def __init__(self, string_query):
