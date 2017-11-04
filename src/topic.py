@@ -9,6 +9,7 @@ class Topic:
         self.string_query = string_query
         self.elements = {}
         self.known_analyses = [Sentiment(), RelatedTopics()]
+        self.assemble()
 
     def get_related_topics(self):
         return self.elements["RelatedTopics"]["related_topics"]
