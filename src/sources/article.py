@@ -1,12 +1,14 @@
-import newspaper
+# import newspaper
 
 class Article:
     def __init__(self, url):
     	self.url = url
-    	self.scrape()
+    	# self.scrape()
 
     def get_text(self):
-    	return self.article.text
+        #temp
+        return '''heres some dummy article text'''
+    	# return self.article.text
 
     def get_thumbnail(self):
         if "thumbnail" in self:
