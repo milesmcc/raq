@@ -10,14 +10,13 @@ from topia.termextract import extract
 
 import sys
 import os
-secrets = os.path.join(os.path.dirname(__file__), "../../secrets.txt")
-
+secrets = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../secrets.txt")
 class RelatedTopics:
     def __init__(self):
         self.extractor = extract.TermExtractor()
         self.extractor.filter = extract.permissiveFilter
         self.usable_characters = set('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ \'')
-        secret = open(secrets).readlines()[0]
+        secret = open(secrets).readlines()[0].strip()
         self.client = wolframalpha.Client(secret)
 
     def get_Levenshtein_Distance(self, a, b):
@@ -36,7 +35,7 @@ class RelatedTopics:
     def get_article_keywords(self, text, num_keywords):
         return unirest.post("https://textanalysis-keyword-extraction-v1.p.mashape.com/keyword-extractor-text",
           headers={
-            "X-Mashape-Key": open(secrets).readlines()[1],
+            "X-Mashape-Key": open(secrets).readlines()[1].strip(),
             "Content-Type": "application/x-www-form-urlencoded",
             "Accept": "application/json"
           },
@@ -83,6 +82,7 @@ class RelatedTopics:
                 o_length = len(kw)
                 keywords[i] = (kw, weight_against_long*o_length+o_rank)
 
+            keywords = filter(lambda x: any([self.get_Levenshtein_Distance(x,y) < 2 for y in keywords]), keywords)
             ranked_c_keywords = zip(c_keywords, range(1, len(c_keywords)+1))
             keywords.extend(self.rerank(ranked_c_keywords))
         return np.array(keywords)[:,0].tolist()
@@ -173,6 +173,8 @@ def main():
     test2 = ["This is a test. I think Miles is a decent human being.", "I really think that Darcy is a decent human being as well."]
 
     rt = RelatedTopics()
+    print(rt.get_Levenshtein_Distance('Mr Obama', 'Obama'))
+
 
 if __name__ == "__main__":
     main()
