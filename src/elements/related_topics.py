@@ -1,4 +1,5 @@
 class RelatedTopics:
+    '''return related topics of a single topic'''
     __init__(self):
         pass
 
