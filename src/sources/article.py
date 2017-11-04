@@ -1,3 +1,5 @@
+import newspaper
+
 class Article:
     def __init__(self, url):
     	self.url = url
@@ -7,5 +9,6 @@ class Article:
     	return self.content
 
     def scrape(self):
-    	pass
-
+        a = newspaper.Article(self.url)
+        a.download()
+        
