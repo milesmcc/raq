@@ -81,7 +81,8 @@ class Manager:
 
 
 def think(topic):
-	return Manager().get_graph_json(topic)
+	data = Manager().get_graph_json(topic)
+	return data
 
 if __name__ == "__main__":
 	m = Manager()
