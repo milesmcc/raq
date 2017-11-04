@@ -14,4 +14,3 @@ class TopicRawData:
     def strings(self):
         pass
         # return all strings
-

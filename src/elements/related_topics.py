@@ -11,7 +11,7 @@ class RelatedTopics:
     """
     strings: an array of strings on which to do the data analysis
     """
-    def process(self, topicdata):
+    def process(self, topicrawdata):
 
         # return your list of related topic strings here
         return {}

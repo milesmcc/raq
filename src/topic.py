@@ -19,4 +19,4 @@ class Topic:
             self.elements[element.get_name()] = element.process(topicrawdata)
 
         # find related topics
-        self.rela
+        self.related_topics = topicdata.
