@@ -14,7 +14,7 @@ class RelatedTopics:
     def process(self, topicrawdata):
 
         # return your list of related topic strings here
-        return {}
+        return []
 
 
 example_text = ["""
