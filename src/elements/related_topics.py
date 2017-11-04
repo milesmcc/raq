@@ -14,10 +14,10 @@ class RelatedTopics:
         result = self.client.query("Damerau Levenshtein Distance between \""+a+"\" and \""+b+"\"")
         return int(result['pod'][1]['subpod']['plaintext'])
 
-    def get_name():
+    def get_name(self):
         return "RelatedTopics"
 
-    def get_human_readable_name():
+    def get_human_readable_name(self):
         return "Related Topics"
 
     def clean(self, string):
@@ -33,7 +33,9 @@ class RelatedTopics:
         keywords = self.r.get_ranked_phrases()
         keywords = zip([self.clean(keyword) for keyword in keywords], range(1, len(keywords)+1))
         
-        return keywords
+        return {
+            "related_topics": keywords
+        }
 
 
 def main():
