@@ -14,8 +14,10 @@ class TopicRawData:
 
     def strings(self):
         # return all strings
-
-        return self.articles.getAllString()# + self.[source].getAllStrings() for other sources
+        allthestrings = ""
+        for article in self.articles:
+            allthestrings += article.getContent()
+        return allthestrings
 
     def getArticles(self): # the only one we're using rn
         return self.articles
