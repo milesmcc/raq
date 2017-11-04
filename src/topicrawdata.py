@@ -1,4 +1,4 @@
-class TopicData:
+class TopicRawData:
     def __init__(self, topicstring):
         self.topicstring = topicstring
 
@@ -9,7 +9,7 @@ class TopicData:
 
     def populate(self):
         pass
-        # fetch all data
+        # fetch raw data
 
     def strings(self):
         pass
