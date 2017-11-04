@@ -17,10 +17,10 @@ class RelatedTopics:
         result = self.client.query("Damerau Levenshtein Distance between \""+a+"\" and \""+b+"\"")
         return int(result['pod'][1]['subpod']['plaintext'])
 
-    def get_name():
+    def get_name(self):
         return "RelatedTopics"
 
-    def get_human_readable_name():
+    def get_human_readable_name(self):
         return "Related Topics"
 
     def clean(self, string):
@@ -54,9 +54,9 @@ class RelatedTopics:
             keywords[i] = (kw, weight_against_long*o_length+o_rank)
         keywords = self.rerank(keywords)
 
-
-
-        return np.array(keywords)[:,0]
+        return {
+            "related_topics": np.array(keywords)[:,0]
+        }
 
 
 def main():

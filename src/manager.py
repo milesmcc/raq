@@ -1,4 +1,5 @@
 from topic import Topic
+import json
 
 class Manager:
 	def __init__(self):
@@ -20,4 +21,3 @@ class Manager:
 		graph = list(set(graph))
 		graph_json = json.dumps(graph)
 		return graph_json
-
