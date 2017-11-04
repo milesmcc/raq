@@ -15,7 +15,7 @@ class Topic:
         self.assemble()
 
     def get_related_topics(self):
-        return self.elements["RelatedTopics"]
+        return self.elements["RelatedTopics"][:4]
 
     def assemble(self):
         # pull data from online

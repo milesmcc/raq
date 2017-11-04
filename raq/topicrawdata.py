@@ -18,7 +18,7 @@ class TopicRawData:
         host = "https://api.cognitive.microsoft.com/bing/v7.0/news"
         headers = {'Ocp-Apim-Subscription-Key': self.subscriptionKey.strip()}
         response = requests.get(host + "?q=" + self.topicstring + "&searchFilters=News", headers=headers).json()
-        for article in response["value"][:16]:
+        for article in response["value"][:4]:
             try:
                 articleObj = Article(article["url"], article["name"])
                 articleObj.thumbnail = article["image"]["thumbnail"]["contentUrl"]
@@ -26,11 +26,10 @@ class TopicRawData:
             except:
                 print("ERROR ON " + article["url"])
         print json.dumps(response)
-        self.search_results = response["totalEstimatedMatches"]
+        self.search_results = len(response["value"])
 
     def strings(self):
         # return all strings
-        self.articles = [Article("a")] # dummy data
         allthestrings = []
         for article in self.articles:
             allthestrings.append(article.get_text())

@@ -10,7 +10,7 @@ class Article:
         return self.text
 
     def get_thumbnail(self):
-        if "thumbnail" in self:
+        if "thumbnail" in dir(self):
             return self.thumbnail
         else:
             return None
