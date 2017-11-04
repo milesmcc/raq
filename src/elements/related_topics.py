@@ -8,8 +8,9 @@ import numpy as np
 class RelatedTopics:
     def __init__(self):
         self.r = Rake()
-        self.usable_characters = set('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ ')
-        self.client = wolframalpha.Client('KPA3AU-V3AP7V83PE')
+        self.usable_characters = set('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ \'')
+        open('../../secrets.txt')
+        self.client = wolframalpha.Client()
 
     def get_Levenshtein_Distance(self, a, b):
         result = self.client.query("Damerau Levenshtein Distance between \""+a+"\" and \""+b+"\"")
