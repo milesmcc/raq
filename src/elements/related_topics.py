@@ -62,7 +62,7 @@ class RelatedTopics:
     """
     def process(self, topicrawdata, approx_num_keywords=5):
         keywords = []
-        for source in topicrawdata:
+        for source in topicrawdata.strings():
             c_keywords = []
             if len(source.split(' ')) > 100:
                 strings = self.clean(source)

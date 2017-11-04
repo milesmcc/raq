@@ -18,9 +18,9 @@ class TopicRawData:
 
     def strings(self):
         # return all strings
-        allthestrings = ""
+        allthestrings = []
         for article in self.articles:
-            allthestrings += article.get_text()
+            allthestrings.append(article.get_text())
         return allthestrings
 
     def getArticles(self): # the only one we're using rn
