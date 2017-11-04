@@ -43,13 +43,15 @@ class RelatedTopics:
         keywords = zip([self.clean(keyword) for keyword in keywords], range(1, len(keywords)+1))
 
         #### Weight against long strings
+        weight_against_long = 5
         for i in range(len(keywords)):
             kw = keywords[i][0]
             o_rank = keywords[i][1]
             o_length = len(kw)
-            keywords[i] = (kw, 5*o_length+o_rank)
+            keywords[i] = (kw, weight_against_long*o_length+o_rank)
         keywords = self.rerank(keywords)
-        return keywords
+
+        return np.array(keywords)[:,0]
 
 
 def main():
