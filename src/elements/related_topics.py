@@ -1,17 +1,21 @@
 class RelatedTopics:
+    '''return related topics of a single topic'''
     __init__(self):
         pass
 
     def get_name():
+        return "RelatedTopics"
+
+    def get_human_readable_name():
         return "Related Topics"
 
     """
     strings: an array of strings on which to do the data analysis
     """
-    def process(self, topicdata):
+    def process(self, topicrawdata):
 
         # return your list of related topic strings here
-        return {}
+        return []
 
 
 example_text = ["""

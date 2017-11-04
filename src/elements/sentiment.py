@@ -8,12 +8,14 @@ class Sentiment:
     def get_name():
         return "Sentiment"
 
+    def get_human_readable_name():
+        return "Sentiment Score"
+
     """
     strings: an array of strings on which to do the data analysis
     """
-    def process(self, topicdata):
-
-        strings = topicdata.strings()
+    def process(self, topicrawdata):
+        strings = topicrawdata.strings()
         scores = [self.process_string(string) for string in strings]
         total_score = self.process_string(' '.join(strings))
 
