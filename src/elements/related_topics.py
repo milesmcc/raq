@@ -5,6 +5,7 @@ import pdb
 import wolframalpha
 import numpy as np
 import requests
+import unirest
 
 class RelatedTopics:
     def __init__(self):
@@ -26,6 +27,19 @@ class RelatedTopics:
     def clean(self, string):
         return filter(lambda x: x in self.usable_characters, string)
 
+    def get_keywords(self, text, num_keywords):
+        return unirest.post("https://textanalysis-keyword-extraction-v1.p.mashape.com/keyword-extractor-text",
+          headers={
+            "X-Mashape-Key": open('../../secrets.txt').readlines()[1],
+            "Content-Type": "application/x-www-form-urlencoded",
+            "Accept": "application/json"
+          },
+          params={
+            "text": text,
+            "wordnum": num_keywords
+          }
+        )
+
     def rerank(self, ls):
         # Input: a list of tuples. Second index of tuple gives rank.
         # Output: a list of tuples. Second index is chronological.
@@ -40,19 +54,21 @@ class RelatedTopics:
     """
     def process(self, topicrawdata):
         pdb.set_trace()
+
+    def process(self, topicrawdata, num_keywords=5):
         strings = [self.clean(string) for string in topicrawdata]
-        [self.r.extract_keywords_from_text(string) for string in strings]
-        keywords = self.r.get_ranked_phrases()
-        keywords = zip([self.clean(keyword) for keyword in keywords], range(1, len(keywords)+1))
+        strings = [self.get_keywords(x, num_keywords) for x in strings]
+        strings = strings[0].body['keywords']
+        keywords = zip([self.clean(keyword) for keyword in strings], range(1, len(strings)+1))
 
         #### Weight against long strings
-        weight_against_long = 5
-        for i in range(len(keywords)):
-            kw = keywords[i][0]
-            o_rank = keywords[i][1]
-            o_length = len(kw)
-            keywords[i] = (kw, weight_against_long*o_length+o_rank)
-        keywords = self.rerank(keywords)
+        # weight_against_long = 5
+        # for i in range(len(keywords)):
+        #     kw = keywords[i][0]
+        #     o_rank = keywords[i][1]
+        #     o_length = len(kw)
+        #     keywords[i] = (kw, weight_against_long*o_length+o_rank)
+        # keywords = self.rerank(keywords)
 
         return {
             "related_topics": np.array(keywords)[:,0]
