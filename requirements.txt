@@ -1,7 +1,8 @@
 vaderSentiment
-#newspaper
+newspaper
 rake_nltk
 pdb
 wolframalpha
 numpy
 unirest
+requests
