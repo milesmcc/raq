@@ -1,5 +1,5 @@
 import requests
-from sources.article import Article
+from .sources.article import Article
 import os
 
 secrets = os.path.join(os.path.dirname(__file__), "../secrets.txt")
@@ -18,9 +18,12 @@ class TopicRawData:
         headers = {'Ocp-Apim-Subscription-Key': self.subscriptionKey.strip()}
         response = requests.get(host + "?q=" + self.topicstring + "&searchFilters=News", headers=headers).json()
         for article in response["value"][:16]:
-            articleObj = Article(article["url"], article["name"])
-            articleObj.thumbnail = article["image"]["thumbnail"]["contentUrl"]
-            self.articles.append(articleObj)
+            try:
+                articleObj = Article(article["url"], article["name"])
+                articleObj.thumbnail = article["image"]["thumbnail"]["contentUrl"]
+                self.articles.append(articleObj)
+            except:
+                print("ERROR ON " + article["url"])
         self.search_results = response["totalEstimatedMatches"]
 
     def strings(self):

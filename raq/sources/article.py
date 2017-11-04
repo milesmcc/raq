@@ -2,12 +2,12 @@ import eatiht
 
 class Article:
     def __init__(self, url, headline):
-    	self.url = url
+        self.url = url
         self.headline = headline
-    	self.scrape()
+        self.scrape()
 
     def get_text(self):
-    	return self.text
+        return self.text
 
     def get_thumbnail(self):
         if "thumbnail" in self:
@@ -22,4 +22,5 @@ class Article:
         return self.headline
 
     def scrape(self):
+        print(self.url)
         self.text = eatiht.extract(self.url)
