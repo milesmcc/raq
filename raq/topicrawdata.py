@@ -2,6 +2,8 @@ import requests
 from sources.article import Article
 import os
 import json
+import multiprocessing as mp
+
 
 secrets = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../secrets.txt")
 
@@ -14,17 +16,25 @@ class TopicRawData:
 
         self.subscriptionKey = secret = open(secrets).readlines()[3]
 
+    def go(self, article):
+        try:
+            articleObj = Article(article["url"], article["name"])
+            articleObj.thumbnail = article["image"]["thumbnail"]["contentUrl"]
+            self.articles.append(articleObj)
+        except:
+            print("ERROR ON " + article["url"])
+
     def populate(self):
         host = "https://api.cognitive.microsoft.com/bing/v7.0/news"
         headers = {'Ocp-Apim-Subscription-Key': self.subscriptionKey.strip()}
         response = requests.get(host + "?q=" + self.topicstring + "&searchFilters=News", headers=headers).json()
-        for article in response["value"][:4]:
-            try:
-                articleObj = Article(article["url"], article["name"])
-                articleObj.thumbnail = article["image"]["thumbnail"]["contentUrl"]
-                self.articles.append(articleObj)
-            except:
-                print("ERROR ON " + article["url"])
+        p = mp.Pool(10)
+        results = []
+        for i in response["value"][:4]:
+            results.append(p.apply_async(self.go, args=(self, i, )))
+        p.close()
+        p.join()
+
         print json.dumps(response)
         self.search_results = len(response["value"])
 
