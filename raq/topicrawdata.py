@@ -18,7 +18,7 @@ class TopicRawData:
         headers = {'Ocp-Apim-Subscription-Key': self.subscriptionKey}
         response = requests.get(host + "?q=" + self.topicstring + "&searchFilters=News", headers=headers).json()
         for article in response["value"][:16]:
-            articleObj = Article(article["url"])
+            articleObj = Article(article["url"], article["name"])
             articleObj.thumbnail = article["image"]["thumbnail"]["contentUrl"]
             self.articles.append(articleObj)
         self.search_results = response["totalEstimatedMatches"]
