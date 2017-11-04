@@ -4,4 +4,4 @@ rake_nltk
 pdb
 wolframalpha
 numpy
-
+unirest

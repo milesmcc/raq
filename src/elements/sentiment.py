@@ -5,10 +5,10 @@ class Sentiment:
     def __init__(self):
         pass
 
-    def get_name():
+    def get_name(self):
         return "Sentiment"
 
-    def get_human_readable_name():
+    def get_human_readable_name(self):
         return "Sentiment Score"
 
     def process(self, topicrawdata):

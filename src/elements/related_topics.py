@@ -4,13 +4,14 @@ import string
 import pdb
 import wolframalpha
 import numpy as np
+import requests
 
 class RelatedTopics:
     def __init__(self):
         self.r = Rake()
         self.usable_characters = set('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ \'')
-        open('../../secrets.txt')
-        self.client = wolframalpha.Client()
+        secret = open('../../secrets.txt').readlines()[0]
+        self.client = wolframalpha.Client(secret)
 
     def get_Levenshtein_Distance(self, a, b):
         result = self.client.query("Damerau Levenshtein Distance between \""+a+"\" and \""+b+"\"")
@@ -38,6 +39,7 @@ class RelatedTopics:
     Output: A list of strings. Representing keywords.
     """
     def process(self, topicrawdata):
+        pdb.set_trace()
         strings = [self.clean(string) for string in topicrawdata]
         [self.r.extract_keywords_from_text(string) for string in strings]
         keywords = self.r.get_ranked_phrases()

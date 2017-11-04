@@ -8,6 +8,8 @@ class TopicRawData:
         self.wikipedia = None # array of Wikipedia classes
         self.reddit = None # array of Reddit comments
 
+        subscriptionKey =
+
     def populate(self):
         pass
         # fetch raw data
