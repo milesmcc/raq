@@ -1,5 +1,5 @@
 import requests
-from .sources.article import Article
+from sources.article import Article
 import os
 import json
 

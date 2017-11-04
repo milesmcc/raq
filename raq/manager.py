@@ -1,5 +1,5 @@
 from __future__ import print_function
-from .topic import Topic
+from topic import Topic
 import json
 
 class Manager:
