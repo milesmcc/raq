@@ -3,6 +3,7 @@ from rake_nltk import Rake
 import string
 import pdb
 import wolframalpha
+import numpy as np
 
 class RelatedTopics:
     def __init__(self):
@@ -23,6 +24,14 @@ class RelatedTopics:
     def clean(self, string):
         return filter(lambda x: x in self.usable_characters, string)
 
+    def rerank(self, ls):
+        # Input: a list of tuples. Second index of tuple gives rank.
+        # Output: a list of tuples. Second index is chronological.
+        ls = sorted(ls, key=lambda x: x[1])
+        ls = np.array(ls)
+        ls = ls[:,0]
+        return zip([w for w in ls], range(1, len(ls)+1))
+
     """
     Input: A list of strings. Representing different data sources.
     Output: A list of strings. Representing keywords.
@@ -32,7 +41,14 @@ class RelatedTopics:
         [self.r.extract_keywords_from_text(string) for string in strings]
         keywords = self.r.get_ranked_phrases()
         keywords = zip([self.clean(keyword) for keyword in keywords], range(1, len(keywords)+1))
-        
+
+        #### Weight against long strings
+        for i in range(len(keywords)):
+            kw = keywords[i][0]
+            o_rank = keywords[i][1]
+            o_length = len(kw)
+            keywords[i] = (kw, 5*o_length+o_rank)
+        keywords = self.rerank(keywords)
         return keywords
 
 
