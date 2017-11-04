@@ -1,6 +1,7 @@
 import json
 import urllib
 import requests
+from sources.article import Article
 
 class TopicRawData:
     '''get the raw data from a lot of sources and put it into a '''
@@ -18,6 +19,7 @@ class TopicRawData:
 
     def strings(self):
         # return all strings
+        self.articles = [Article("a")] # dummy data
         allthestrings = []
         for article in self.articles:
             allthestrings.append(article.get_text())

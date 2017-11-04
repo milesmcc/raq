@@ -81,9 +81,7 @@ class RelatedTopics:
 
             ranked_c_keywords = zip(c_keywords, range(1, len(c_keywords)+1))
             keywords.extend(self.rerank(ranked_c_keywords))
-        return {
-            "related_topics": np.array(keywords)[:,0]
-        }
+        return np.array(keywords)[:,0]
 
 
 def main():
