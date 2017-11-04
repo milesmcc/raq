@@ -1,5 +1,8 @@
+from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
+
+
 class Sentiment:
-    __init__(self):
+    def __init__(self):
         pass
 
     def get_name():
@@ -10,9 +13,17 @@ class Sentiment:
     """
     def process(self, topicdata):
 
-        strings = topicdata.get_strings()
+        strings = topicdata.strings()
+        scores = [self.process_string(string) for string in strings]
+        total_score = self.process_string(' '.join(strings))
 
         # return your list of related topic strings here
         return {
-            "sentiment": -0.3
+            "sentiment": total_score,
+            "individual_sentiments": scores
         }
+
+    def process_string(self, text):
+        """Returns a simple compound score for a piece of text."""
+        analyzer = SentimentIntensityAnalyzer()
+        return analyzer.polarity_scores(text)["compound"]
