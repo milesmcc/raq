@@ -3,7 +3,7 @@ from elements.related_topics import RelatedTopics
 from elements.sentiment import Sentiment
 
 class Topic:
-    known_elements = [Sentiment, RelatedTopics]
+    known_analyses = [Sentiment, RelatedTopics]
 
     def __init__(self, string_query):
         self.string_query
@@ -15,6 +15,10 @@ class Topic:
         topicrawdata.populate()
 
         # perform analysis
-        for element in known_elements:
-            self.elements[element.get_name()] = element.process(topicrawdata)
+        for analysis in known_analyses:
+            self.elements[analysis.get_name()] = analysis.process(topicrawdata)
 
+        self.elements['uid'] = makeUID()
+        self.elements['name'] = self.string_query
+
+        return self.elements
