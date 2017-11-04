@@ -2,11 +2,17 @@
 from rake_nltk import Rake
 import string
 import pdb
+import wolframalpha
 
 class RelatedTopics:
     def __init__(self):
         self.r = Rake()
         self.usable_characters = set('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ ')
+        self.client = wolframalpha.Client('KPA3AU-V3AP7V83PE')
+
+    def get_Levenshtein_Distance(self, a, b):
+        result = self.client.query("Damerau Levenshtein Distance between \""+a+"\" and \""+b+"\"")
+        return int(result['pod'][1]['subpod']['plaintext'])
 
     def get_name():
         return "RelatedTopics"
@@ -22,10 +28,11 @@ class RelatedTopics:
     Output: A list of strings. Representing keywords.
     """
     def process(self, topicrawdata):
-        strings = [self.clean(string) for string in strings]
+        strings = [self.clean(string) for string in topicrawdata]
         [self.r.extract_keywords_from_text(string) for string in strings]
         keywords = self.r.get_ranked_phrases()
-        keywords = [self.clean(keyword) for keyword in keywords]
+        keywords = zip([self.clean(keyword) for keyword in keywords], range(1, len(keywords)+1))
+        
         return keywords
 
 
@@ -111,7 +118,7 @@ def main():
     But Mr. Trump’s own outspokenness may have helped lead to the very result he was condemning. The judge did not explain his reasoning on Friday but last week said he would consider the president’s past comments as evidence for a lighter sentence."""]
 
     rt = RelatedTopics()
-    print(rt.get_keywords(example_source_list))
+    print(rt.process(example_source_list))
 
 if __name__ == "__main__":
     main()
