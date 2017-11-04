@@ -1,6 +1,6 @@
 from __future__ import print_function
 import requests
-from sources.article import Article
+from .sources.article import Article
 import os
 import json
 import multiprocessing as mp
