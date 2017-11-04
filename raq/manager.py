@@ -19,6 +19,8 @@ class Manager:
 			else:
 				searched.append(related_level1)
 			topic_level1 = Topic(related_level1)
+			root_topic.connect(topic_level1.string_query)
+			topic_level1.connect(root_topic.string_query)
 			for related_level2 in topic_level1.get_related_topics()[:4]:
 				if related_level2 in searched:
 					continue
@@ -83,4 +85,4 @@ def think(topic):
 
 if __name__ == "__main__":
 	m = Manager()
-	print(m.get_graph_json("kevin spacey"))
+	print(m.get_graph_json("halloween 2017"))
