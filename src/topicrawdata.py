@@ -6,6 +6,7 @@ class TopicRawData:
     def __init__(self, topicstring):
         self.topicstring = topicstring
         self.articles = [] # array of article classes
+        self.search_results = None
 
         self.subscriptionKey = secret = open('../secrets.txt').readlines()[3]
 
@@ -17,6 +18,7 @@ class TopicRawData:
             articleObj = Article(article["url"])
             articleObj.thumbnail = article["image"]["thumbnail"]["contentUrl"]
             self.articles.append(articleObj)
+        self.search_results = response["totalEstimatedMatches"]
 
     def strings(self):
         # return all strings

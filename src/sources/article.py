@@ -8,6 +8,15 @@ class Article:
     def get_text(self):
     	return self.article.text
 
+    def get_thumbnail(self):
+        if "thumbnail" in self:
+            return self.thumbnail
+        else:
+            return None
+
+    def get_url(self):
+        return self.url
+
     def get_headline(self):
         return self.article.title
 
