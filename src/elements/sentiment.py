@@ -11,9 +11,9 @@ class Sentiment:
     """
     strings: an array of strings on which to do the data analysis
     """
-    def process(self, topicdata):
+    def process(self, topicrawdata):
 
-        strings = topicdata.get_strings()
+        strings = topicrawdata.get_strings()
 
         # return your list of related topic strings here
         return {
