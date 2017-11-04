@@ -1,12 +1,13 @@
-import newspaper
+import eatiht
 
 class Article:
-    def __init__(self, url):
+    def __init__(self, url, headline):
     	self.url = url
+        self.headline = headline
     	self.scrape()
 
     def get_text(self):
-    	return self.article.text
+    	return self.text
 
     def get_thumbnail(self):
         if "thumbnail" in self:
@@ -18,11 +19,7 @@ class Article:
         return self.url
 
     def get_headline(self):
-        return self.article.title
+        return self.headline
 
     def scrape(self):
-        a = newspaper.Article(self.url)
-        a.download()
-        a.parse()
-        self.article = a
-
+        self.text = eatiht.extract(self.url)

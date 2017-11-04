@@ -1,5 +1,5 @@
 vaderSentiment
-newspaper
+eatiht
 rake_nltk
 pdb
 wolframalpha
