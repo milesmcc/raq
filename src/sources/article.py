@@ -1,7 +1,7 @@
 class Article:
     def __init__(self, url):
     	self.url = url
-    	scrape()
+    	self.scrape()
 
     def getText(self):
     	return self.content
