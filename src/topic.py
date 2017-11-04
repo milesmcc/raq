@@ -28,4 +28,4 @@ class Topic:
         }
 
     def __eq__(self, other):
-        return other.string_query.lower == self.string_query.lower
+        return other.string_query.lower() == self.string_query.lower()
