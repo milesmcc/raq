@@ -1,3 +1,4 @@
+from __future__ import print_function
 import requests
 from sources.article import Article
 import os
@@ -11,7 +12,7 @@ def go(self, article):
     try:
         articleObj = Article(article["url"], article["name"])
         articleObj.thumbnail = article["image"]["thumbnail"]["contentUrl"]
-        return articleObj
+        return(articleObj)
     except:
         print("ERROR ON " + article["url"])
 
@@ -37,7 +38,7 @@ class TopicRawData:
         results = [x.get() for x in results]
         results = filter(None, results)
         self.articles.extend(results)
-        print json.dumps(response)
+        # print json.dumps(response)
         self.search_results = len(response["value"])
 
     def strings(self):
