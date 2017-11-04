@@ -6,9 +6,12 @@ import pdb
 class RelatedTopics:
     def __init__(self):
         self.r = Rake()
-        self.usable_characters = set('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ! c')
+        self.usable_characters = set('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!')
 
-    def get_name(self):
+    def get_name():
+        return "RelatedTopics"
+
+    def get_human_readable_name():
         return "Related Topics"
 
     def clean(self, string):
@@ -17,7 +20,7 @@ class RelatedTopics:
     """
     strings: an array of strings on which to do the data analysis
     """
-    def get_keywords(self, strings):
+    def process(self, topicrawdata):
         strings = [self.clean(string) for string in strings]
         [self.r.extract_keywords_from_text(string) for string in strings]
         keywords = self.r.get_ranked_phrases()
