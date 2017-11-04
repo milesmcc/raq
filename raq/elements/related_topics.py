@@ -66,7 +66,8 @@ class RelatedTopics:
     Output: A list of strings. Representing keywords.
     """
     def process(self, topicrawdata, approx_num_keywords=5):
-        keywords = []
+        if len(topicrawdata.strings()) == 0:
+            return []
         for source in topicrawdata.strings():
             c_keywords = []
             if len(source.split(' ')) > 100:
