@@ -1,4 +1,4 @@
-from topicrawdata import TopicRawData
+from .topicrawdata import TopicRawData
 from elements.related_topics import RelatedTopics
 from elements.sentiment import Sentiment
 from elements.popularity import Popularity
