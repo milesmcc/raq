@@ -24,6 +24,7 @@ class TopicRawData:
                 self.articles.append(articleObj)
             except:
                 print("ERROR ON " + article["url"])
+        print json.dumps(response)
         self.search_results = response["totalEstimatedMatches"]
 
     def strings(self):
