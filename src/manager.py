@@ -20,4 +20,3 @@ class Manager:
 		graph = list(set(graph))
 		graph_json = json.dumps(graph)
 		return graph_json
-
