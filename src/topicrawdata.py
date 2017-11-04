@@ -1,24 +1,26 @@
+import json
+import urllib
+import requests
+
 class TopicRawData:
     '''get the raw data from a lot of sources and put it into a '''
     def __init__(self, topicstring):
         self.topicstring = topicstring
-
-        self.tweets = None # array of tweets, according to Twitter's specification
         self.articles = None # array of article classes
-        self.wikipedia = None # array of Wikipedia classes
-        self.reddit = None # array of Reddit comments
 
-        subscriptionKey =
+        self.subscriptionKey = secret = open('../secrets.txt').readlines()[3]
 
     def populate(self):
-        pass
-        # fetch raw data
+        host = "https://api.cognitive.microsoft.com/bing/v7.0/search"
+        headers = {'Ocp-Apim-Subscription-Key': self.subscriptionKey}
+        response = requests.get(host + "?q=" + self.topicstring + "&searchFilters=News", headers=headers).json()
+
 
     def strings(self):
         # return all strings
         allthestrings = ""
         for article in self.articles:
-            allthestrings += article.getContent()
+            allthestrings += article.get_text()
         return allthestrings
 
     def getArticles(self): # the only one we're using rn
