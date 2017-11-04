@@ -281,3 +281,33 @@ You'll get data that looks like this in response:
   }
 ]
 ```
+
+### The Pitch
+We built Raq, a helpful Python API that lets you search, extract, and understand topics from the media.
+
+OVERVIEW
+-------------
+Give Raq a topic—for example, "Jeff Sessions"—and it'll put together a collection of news stories on that topic. Then, Raq will figure HOW the media is covering that topic. Are the stories mostly positive? Negative? What are the other people, events, and organizations is the topic being connected to?
+
+At its core, Raq is a machine-learning algorithm and a search algorithm packed into a convenient, fast, and easy-to-use API.
+
+HOW TO USE
+-------------
+Using Raq is simple. When Raq is available on PyPI (a.k.a. "pip") in the next few hours, you'll be able to...
+
+~$ pip install raq
+
+Then, all you'll need to do is write some simple Python code:
+
+import raq.manager
+network = raq.manager.think("Jeff Sessions")
+for topic in network:
+    print topic.name
+    print topic.sentiment
+    print topic.related_articles
+
+This will go through the topic you entered (in this case, "Jeff Sessions") and other topics associated with it, printing out sentiment towards that topic and related articles along the way.
+
+WHO WOULD USE THIS
+-------------
+Trying to make a news curation app? You could use Raq. Hoping to perform some deep learning analysis on topics in the news? Raq is your solution. It's so easy to use, you just couldn't _not_ use it!
