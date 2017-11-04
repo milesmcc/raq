@@ -20,6 +20,8 @@ class RelatedTopics:
         self.client = wolframalpha.Client(secret)
 
     def get_Levenshtein_Distance(self, a, b):
+        print("A:", a)
+        print("B:", b)
         result = self.client.query("Damerau Levenshtein Distance between \""+a+"\" and \""+b+"\"")
         return int(result['pod'][1]['subpod']['plaintext'])
 
@@ -65,7 +67,7 @@ class RelatedTopics:
     """
     def process(self, topicrawdata, approx_num_keywords=5):
         keywords = []
-        for source in topicrawdata.strings():
+        for source in topicrawdata:
             c_keywords = []
             if len(source.split(' ')) > 100:
                 strings = self.clean(source)
@@ -74,6 +76,10 @@ class RelatedTopics:
                 c_keywords.extend([self.clean(keyword) for keyword in strings])
             else:
                 c_keywords.extend(self.get_short_keywords(source))
+
+            #### Remove too close of words
+            # c_keywords = filter(lambda x: any([self.get_Levenshtein_Distance(x,y) < 2 for y in c_keywords]), c_keywords)
+
             #### Weight against long strings
             weight_against_long = 0
             for i in range(len(keywords)):
@@ -82,7 +88,6 @@ class RelatedTopics:
                 o_length = len(kw)
                 keywords[i] = (kw, weight_against_long*o_length+o_rank)
 
-            keywords = filter(lambda x: any([self.get_Levenshtein_Distance(x,y) < 2 for y in keywords]), keywords)
             ranked_c_keywords = zip(c_keywords, range(1, len(c_keywords)+1))
             keywords.extend(self.rerank(ranked_c_keywords))
         return np.array(keywords)[:,0].tolist()
@@ -173,7 +178,8 @@ def main():
     test2 = ["This is a test. I think Miles is a decent human being.", "I really think that Darcy is a decent human being as well."]
 
     rt = RelatedTopics()
-    print(rt.get_Levenshtein_Distance('Mr Obama', 'Obama'))
+    print(rt.process(test1))
+    print(rt.process(test2))
 
 
 if __name__ == "__main__":
