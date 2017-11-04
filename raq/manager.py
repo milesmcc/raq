@@ -19,7 +19,7 @@ class Manager:
 				searched.append(related_level1)
 			topic_level1 = Topic(related_level1)
 			for related_level2 in topic_level1.get_related_topics()[:4]:
-				if related_level2.string_query in searched:
+				if related_level2 in searched:
 					continue
 				else:
 					searched.append(related_level2)
