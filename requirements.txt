@@ -1,2 +1,4 @@
 vaderSentiment
 rake_nltk
+newspaper
+
