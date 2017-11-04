@@ -1,5 +1,3 @@
-import json
-import urllib
 import requests
 from sources.article import Article
 
@@ -12,10 +10,13 @@ class TopicRawData:
         self.subscriptionKey = secret = open('../secrets.txt').readlines()[3]
 
     def populate(self):
-        host = "https://api.cognitive.microsoft.com/bing/v7.0/search"
+        host = "https://api.cognitive.microsoft.com/bing/v7.0/news"
         headers = {'Ocp-Apim-Subscription-Key': self.subscriptionKey}
         response = requests.get(host + "?q=" + self.topicstring + "&searchFilters=News", headers=headers).json()
-
+        for article in response["value"][:16]:
+            articleObj = Article(article["url"])
+            articleObj.thumbnail = article["image"]["thumbnail"]["contentUrl"]
+            self.articles.append(articleObj)
 
     def strings(self):
         # return all strings
