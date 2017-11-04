@@ -8,6 +8,5 @@ setup(name='raq',
       author='ADMIN',
       author_email='techmasters@andover.edu',
       url='https://student.andover.edu',
-      package_dir={'raq': 'src'},
       packages=['raq', 'raq.elements', 'raw.sources'],
      )
