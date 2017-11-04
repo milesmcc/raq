@@ -1,5 +1,5 @@
 import requests
-from sources.article import Article
+from .sources.article import Article
 
 class TopicRawData:
     '''get the raw data from a lot of sources and put it into a '''
