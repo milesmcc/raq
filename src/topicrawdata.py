@@ -1,4 +1,5 @@
 class TopicRawData:
+    '''get the raw data from a lot of sources and put it into a '''
     def __init__(self, topicstring):
         self.topicstring = topicstring
 
@@ -12,5 +13,11 @@ class TopicRawData:
         # fetch raw data
 
     def strings(self):
-        pass
+        # pass
         # return all strings
+        return [self.tweets.strings, self.ar]
+
+    def getArticles(self): # the only one we're using rn
+        return self.articles
+
+    # getters for tweets, wikipedia, reddit, etc
