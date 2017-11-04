@@ -20,8 +20,6 @@ class RelatedTopics:
         self.client = wolframalpha.Client(secret)
 
     def get_Levenshtein_Distance(self, a, b):
-        print("A:", a)
-        print("B:", b)
         result = self.client.query("Damerau Levenshtein Distance between \""+a+"\" and \""+b+"\"")
         return int(result['pod'][1]['subpod']['plaintext'])
 
@@ -66,6 +64,8 @@ class RelatedTopics:
     Output: A list of strings. Representing keywords.
     """
     def process(self, topicrawdata, approx_num_keywords=5):
+        if len(topicrawdata.strings()) == 0:
+            return []
         keywords = []
         for source in topicrawdata.strings():
             c_keywords = []
@@ -81,12 +81,12 @@ class RelatedTopics:
             # c_keywords = filter(lambda x: any([self.get_Levenshtein_Distance(x,y) < 2 for y in c_keywords]), c_keywords)
 
             #### Weight against long strings
-            weight_against_long = 0
-            for i in range(len(keywords)):
-                kw = keywords[i][0]
-                o_rank = keywords[i][1]
-                o_length = len(kw)
-                keywords[i] = (kw, weight_against_long*o_length+o_rank)
+            # weight_against_long = 0
+            # for i in range(len(c_keywords)):
+            #     kw = keywords[i][0]
+            #     o_rank = keywords[i][1]
+            #     o_length = len(kw)
+            #     keywords[i] = (kw, weight_against_long*o_length+o_rank)
 
             ranked_c_keywords = zip(c_keywords, range(1, len(c_keywords)+1))
             keywords.extend(self.rerank(ranked_c_keywords))
