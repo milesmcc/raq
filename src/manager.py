@@ -18,6 +18,49 @@ class Manager:
 				graph.append(topic_level2.assemble())
 		for topic in self.topic_path[-min(len(self.topic_path), 3):]:
 			graph.append(topic)
-		graph = list(set(graph))
-		graph_json = json.dumps(graph)
-		return graph_json
+		# graph = list(set(graph))
+		# print graph[0]
+		# graph = {v['name']:v for v in map(lambda x: x, graph)}.values()
+		# print graph
+		# graph_json = json.dumps(graph)
+		# print graph[0]
+		# print "\n"
+		# return graph_json
+		s = '''[
+			{
+				"name": "a"
+				"elements": {
+					"RelatedTopics": ["one", "two", "three"],
+					"Sentiment": {
+						"sentiment": 0.5,
+						"individual_sentiments": [0.1, 0.2, 0.3]
+					}
+				}
+			},
+			{
+				"name": "b"
+				"elements": {
+					"RelatedTopics": ["a", "five", "six"],
+					"Sentiment": {
+						"sentiment": 0.5,
+						"individual_sentiments": [0.1, 0.2, 0.3]
+					}
+				}
+			},
+			{
+				"name": "c"
+				"elements": {
+					"RelatedTopics": ["a", "seven", "eight"],
+					"Sentiment": {
+						"sentiment": 0.5,
+						"individual_sentiments": [0.1, 0.2, 0.3]
+					}
+				}
+			}
+		]'''
+		s = s.replace("\n", "")
+		return s
+
+if __name__ == "__main__":
+	m = Manager()
+	print m.get_graph_json("kaspersky")
