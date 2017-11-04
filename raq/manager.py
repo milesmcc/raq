@@ -6,6 +6,7 @@ class Manager:
 	def __init__(self):
 		self.topic_path = []
 
+
 	def get_graph_json(self, querystring):
 		graph = []
 		root_topic = Topic(querystring)
@@ -75,6 +76,10 @@ class Manager:
 		# ]'''
 		# s = s.replace("\n", "")
 		# return s
+
+
+def think(topic):
+	return Manager().get_graph_json(topic)
 
 if __name__ == "__main__":
 	m = Manager()
