@@ -26,3 +26,6 @@ class Topic:
             "elements": self.elements,
             "name": self.string_query,
         }
+
+    def __eq__(self, other):
+        return other.string_query.lower == self.string_query.lower
