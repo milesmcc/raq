@@ -1,5 +1,8 @@
 import requests
 from sources.article import Article
+import os
+
+secrets = os.path.join(os.path.dirname(__file__), "../secrets.txt")
 
 class TopicRawData:
     '''get the raw data from a lot of sources and put it into a '''
@@ -8,7 +11,7 @@ class TopicRawData:
         self.articles = [] # array of article classes
         self.search_results = None
 
-        self.subscriptionKey = secret = open('../secrets.txt').readlines()[3]
+        self.subscriptionKey = secret = open(secrets).readlines()[3]
 
     def populate(self):
         host = "https://api.cognitive.microsoft.com/bing/v7.0/news"

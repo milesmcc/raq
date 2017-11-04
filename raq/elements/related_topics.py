@@ -8,12 +8,16 @@ import requests
 import unirest
 from topia.termextract import extract
 
+import sys
+import os
+secrets = os.path.join(os.path.dirname(__file__), "../../secrets.txt")
+
 class RelatedTopics:
     def __init__(self):
         self.extractor = extract.TermExtractor()
         self.extractor.filter = extract.permissiveFilter
         self.usable_characters = set('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ \'')
-        secret = open('../../secrets.txt').readlines()[0]
+        secret = open(secrets).readlines()[0]
         self.client = wolframalpha.Client(secret)
 
     def get_Levenshtein_Distance(self, a, b):
@@ -32,7 +36,7 @@ class RelatedTopics:
     def get_article_keywords(self, text, num_keywords):
         return unirest.post("https://textanalysis-keyword-extraction-v1.p.mashape.com/keyword-extractor-text",
           headers={
-            "X-Mashape-Key": open('../../secrets.txt').readlines()[1],
+            "X-Mashape-Key": open(secrets).readlines()[1],
             "Content-Type": "application/x-www-form-urlencoded",
             "Accept": "application/json"
           },
