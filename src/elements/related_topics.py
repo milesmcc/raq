@@ -18,7 +18,8 @@ class RelatedTopics:
         return filter(lambda x: x in self.usable_characters, string)
 
     """
-    strings: an array of strings on which to do the data analysis
+    Input: A list of strings. Representing different data sources.
+    Output: A list of strings. Representing keywords.
     """
     def process(self, topicrawdata):
         strings = [self.clean(string) for string in strings]
