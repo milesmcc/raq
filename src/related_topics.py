@@ -6,7 +6,7 @@ import pdb
 class RelatedTopics:
     def __init__(self):
         self.r = Rake()
-        self.usable_characters = set('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ! ')
+        self.usable_characters = set('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ! c')
 
     def get_name(self):
         return "Related Topics"
