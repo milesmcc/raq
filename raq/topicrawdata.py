@@ -15,7 +15,7 @@ class TopicRawData:
 
     def populate(self):
         host = "https://api.cognitive.microsoft.com/bing/v7.0/news"
-        headers = {'Ocp-Apim-Subscription-Key': self.subscriptionKey}
+        headers = {'Ocp-Apim-Subscription-Key': self.subscriptionKey.strip()}
         response = requests.get(host + "?q=" + self.topicstring + "&searchFilters=News", headers=headers).json()
         for article in response["value"][:16]:
             articleObj = Article(article["url"], article["name"])
