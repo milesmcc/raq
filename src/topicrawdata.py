@@ -6,7 +6,7 @@ class TopicRawData:
     '''get the raw data from a lot of sources and put it into a '''
     def __init__(self, topicstring):
         self.topicstring = topicstring
-        self.articles = None # array of article classes
+        self.articles = []] # array of article classes
 
         self.subscriptionKey = secret = open('../secrets.txt').readlines()[3]
 
