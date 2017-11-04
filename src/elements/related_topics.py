@@ -6,10 +6,12 @@ import wolframalpha
 import numpy as np
 import requests
 import unirest
+from topia.termextract import extract
 
 class RelatedTopics:
     def __init__(self):
-        self.r = Rake()
+        self.extractor = extract.TermExtractor()
+        self.extractor.filter = extract.permissiveFilter
         self.usable_characters = set('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ \'')
         secret = open('../../secrets.txt').readlines()[0]
         self.client = wolframalpha.Client(secret)
@@ -27,7 +29,7 @@ class RelatedTopics:
     def clean(self, string):
         return filter(lambda x: x in self.usable_characters, string)
 
-    def get_keywords(self, text, num_keywords):
+    def get_article_keywords(self, text, num_keywords):
         return unirest.post("https://textanalysis-keyword-extraction-v1.p.mashape.com/keyword-extractor-text",
           headers={
             "X-Mashape-Key": open('../../secrets.txt').readlines()[1],
@@ -39,6 +41,12 @@ class RelatedTopics:
             "wordnum": num_keywords
           }
         )
+
+    def get_short_keywords(self, text):
+        '''
+        Returns keywords of short sentence.
+        '''
+        return np.array(self.extractor(text))[:,0]
 
     def rerank(self, ls):
         # Input: a list of tuples. Second index of tuple gives rank.
@@ -52,31 +60,34 @@ class RelatedTopics:
     Input: A list of strings. Representing different data sources.
     Output: A list of strings. Representing keywords.
     """
-    def process(self, topicrawdata):
-        pdb.set_trace()
+    def process(self, topicrawdata, approx_num_keywords=5):
+        keywords = []
+        for source in topicrawdata.strings():
+            c_keywords = []
+            if len(source.split(' ')) > 100:
+                strings = self.clean(source)
+                strings = self.get_article_keywords(source, approx_num_keywords)
+                strings = strings.body['keywords']
+                c_keywords.extend([self.clean(keyword) for keyword in strings])
+            else:
+                c_keywords.extend(self.get_short_keywords(source))
+            #### Weight against long strings
+            weight_against_long = 0
+            for i in range(len(keywords)):
+                kw = keywords[i][0]
+                o_rank = keywords[i][1]
+                o_length = len(kw)
+                keywords[i] = (kw, weight_against_long*o_length+o_rank)
 
-    def process(self, topicrawdata, num_keywords=5):
-        strings = [self.clean(string) for string in topicrawdata]
-        strings = [self.get_keywords(x, num_keywords) for x in strings]
-        strings = strings[0].body['keywords']
-        keywords = zip([self.clean(keyword) for keyword in strings], range(1, len(strings)+1))
-
-        #### Weight against long strings
-        # weight_against_long = 5
-        # for i in range(len(keywords)):
-        #     kw = keywords[i][0]
-        #     o_rank = keywords[i][1]
-        #     o_length = len(kw)
-        #     keywords[i] = (kw, weight_against_long*o_length+o_rank)
-        # keywords = self.rerank(keywords)
-
+            ranked_c_keywords = zip(c_keywords, range(1, len(c_keywords)+1))
+            keywords.extend(self.rerank(ranked_c_keywords))
         return {
             "related_topics": np.array(keywords)[:,0]
         }
 
 
 def main():
-    example_source_list = ["""
+    test1 = ["""
     WASHINGTON — One of President Trump’s biggest disappointments in office, by his own account, was discovering that he is not supposed to personally direct law enforcement decisions by the Justice Department and the F.B.I. So, instead, he has made himself into perhaps the most vocal critic of America’s system of justice ever to occupy the Oval Office.
 
     Just this week, he denounced the criminal justice system as “a joke” and “a laughingstock.” He demanded that the suspect in the New York terrorist attack be executed. He spent Friday berating the Justice Department and F.B.I. for not investigating his political opponents. He then turned to the military justice system and called a court-martial decision “a complete and total disgrace.”
@@ -156,8 +167,10 @@ def main():
 
     But Mr. Trump’s own outspokenness may have helped lead to the very result he was condemning. The judge did not explain his reasoning on Friday but last week said he would consider the president’s past comments as evidence for a lighter sentence."""]
 
+
+    test2 = ["This is a test. I think Miles is a decent human being.", "I really think that Darcy is a decent human being as well."]
+
     rt = RelatedTopics()
-    print(rt.process(example_source_list))
 
 if __name__ == "__main__":
     main()

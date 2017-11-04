@@ -7,7 +7,7 @@ class TopicRawData:
     '''get the raw data from a lot of sources and put it into a '''
     def __init__(self, topicstring):
         self.topicstring = topicstring
-        self.articles = None # array of article classes
+        self.articles = [] # array of article classes
 
         self.subscriptionKey = secret = open('../secrets.txt').readlines()[3]
 
@@ -21,9 +21,9 @@ class TopicRawData:
 
     def strings(self):
         # return all strings
-        allthestrings = ""
+        allthestrings = []
         for article in self.articles:
-            allthestrings += article.get_text()
+            allthestrings.append(article.get_text())
         return allthestrings
 
     def getArticles(self): # the only one we're using rn
