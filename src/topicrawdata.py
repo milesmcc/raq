@@ -1,5 +1,3 @@
-import json
-import urllib
 import requests
 from sources.article import Article
 
@@ -17,6 +15,7 @@ class TopicRawData:
         response = requests.get(host + "?q=" + self.topicstring + "&searchFilters=News", headers=headers).json()
         for article in response["value"][:16]:
             articleObj = Article(article["url"])
+            articleObj.thumbnail = article["image"]["thumbnail"]["contentUrl"]
             self.articles.append(articleObj)
 
     def strings(self):
