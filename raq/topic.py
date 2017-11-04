@@ -1,6 +1,6 @@
-from .topicrawdata import TopicRawData
-from .elements.related_topics import RelatedTopics
-from .elements.sentiment import Sentiment
+from topicrawdata import TopicRawData
+from elements.related_topics import RelatedTopics
+from elements.sentiment import Sentiment
 
 class Topic:
     '''return dict of relevant info about a single topic'''
