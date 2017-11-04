@@ -2,7 +2,7 @@ import requests
 from .sources.article import Article
 import os
 
-secrets = os.path.join(os.path.dirname(__file__), "../secrets.txt")
+secrets = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../secrets.txt")
 
 class TopicRawData:
     '''get the raw data from a lot of sources and put it into a '''

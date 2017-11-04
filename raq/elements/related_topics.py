@@ -10,17 +10,18 @@ from topia.termextract import extract
 
 import sys
 import os
-secrets = os.path.join(os.path.dirname(__file__), "../../secrets.txt")
-
+secrets = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../secrets.txt")
 class RelatedTopics:
     def __init__(self):
         self.extractor = extract.TermExtractor()
         self.extractor.filter = extract.permissiveFilter
         self.usable_characters = set('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ \'')
-        secret = open(secrets).readlines()[0]
+        secret = open(secrets).readlines()[0].strip()
         self.client = wolframalpha.Client(secret)
 
     def get_Levenshtein_Distance(self, a, b):
+        print("A:", a)
+        print("B:", b)
         result = self.client.query("Damerau Levenshtein Distance between \""+a+"\" and \""+b+"\"")
         return int(result['pod'][1]['subpod']['plaintext'])
 
@@ -36,7 +37,7 @@ class RelatedTopics:
     def get_article_keywords(self, text, num_keywords):
         return unirest.post("https://textanalysis-keyword-extraction-v1.p.mashape.com/keyword-extractor-text",
           headers={
-            "X-Mashape-Key": open(secrets).readlines()[1],
+            "X-Mashape-Key": open(secrets).readlines()[1].strip(),
             "Content-Type": "application/x-www-form-urlencoded",
             "Accept": "application/json"
           },
@@ -66,7 +67,7 @@ class RelatedTopics:
     """
     def process(self, topicrawdata, approx_num_keywords=5):
         keywords = []
-        for source in topicrawdata.strings():
+        for source in topicrawdata:
             c_keywords = []
             if len(source.split(' ')) > 100:
                 strings = self.clean(source)
@@ -75,6 +76,10 @@ class RelatedTopics:
                 c_keywords.extend([self.clean(keyword) for keyword in strings])
             else:
                 c_keywords.extend(self.get_short_keywords(source))
+
+            #### Remove too close of words
+            # c_keywords = filter(lambda x: any([self.get_Levenshtein_Distance(x,y) < 2 for y in c_keywords]), c_keywords)
+
             #### Weight against long strings
             weight_against_long = 0
             for i in range(len(keywords)):
@@ -173,6 +178,9 @@ def main():
     test2 = ["This is a test. I think Miles is a decent human being.", "I really think that Darcy is a decent human being as well."]
 
     rt = RelatedTopics()
+    print(rt.process(test1))
+    print(rt.process(test2))
+
 
 if __name__ == "__main__":
     main()
