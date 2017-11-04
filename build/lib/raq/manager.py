@@ -1,3 +1,4 @@
+from __future__ import print_function
 from topic import Topic
 import json
 
@@ -20,7 +21,7 @@ class Manager:
 			graph.append(topic.assemble())
 		graph = {v['name']:v for v in map(lambda x: x, graph)}.values()
 		for thing in graph:
-			print thing
+			print(thing)
 		graph_json = json.dumps(graph)
 		# print "\n\n"
 		# print graph
@@ -64,4 +65,4 @@ class Manager:
 
 if __name__ == "__main__":
 	m = Manager()
-	print m.get_graph_json("kaspersky")
+	print(m.get_graph_json("kaspersky"))
