@@ -295,7 +295,7 @@ HOW TO USE
 -------------
 Using Raq is simple. When Raq is available on PyPI (a.k.a. "pip") in the next few hours, you'll be able to...
 
-~$ pip install raq
+~$ pip install https://github.com/milesmcc/raq/archive/master.zip
 
 Then, all you'll need to do is write some simple Python code:
 
